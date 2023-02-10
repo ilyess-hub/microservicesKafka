@@ -2,19 +2,18 @@ package com.microservices.springkafkaproducer.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "order1")
+@Document("order1")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class Order implements Serializable {
     private static final long serialVersionUID = -4551323276601557391L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private double orderAmount;
     private String status;

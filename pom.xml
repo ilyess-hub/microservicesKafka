@@ -17,10 +17,17 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
+
+
+
+		<!--mongo-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
+
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -41,11 +48,6 @@
 
 
 		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -57,18 +59,14 @@
 		</dependency>
 	</dependencies>
 
+
+
 	<build>
 		<plugins>
-
-
-
-
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
 
 
 
@@ -86,7 +84,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>ilyes10/producer-service</repository>
+					<repository>ilyes10/producer1-service</repository>
 					<tag>${project.version}</tag>
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 				</configuration>
@@ -103,6 +101,10 @@
 
 
 		</plugins>
+
+
+
+
 	</build>
 
 

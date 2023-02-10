@@ -1,15 +1,15 @@
 package com.microservices.springkafkaproducer.bean;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 
-@Entity
-@Table(name = "user1")
+@Document("user1")
 public class User implements Serializable {
 
     private static final long serialVersionUID = -4551953276601557391L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
     private double balance;

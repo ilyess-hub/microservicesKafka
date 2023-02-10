@@ -38,10 +38,14 @@ public class OrderService {
         return order;
     }
 
+
+
     public List<Order> getAllOrders() {
         List<Order> orders= (List<Order>) orderCRUD.findAll();
         return orders;
     }
+
+
 }
 
 
