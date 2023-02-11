@@ -1,4 +1,3 @@
-
 FROM openjdk:11
 COPY target/springkafkaproducer-0.0.1-SNAPSHOT.jar producer-service1.jar
 EXPOSE 9090
