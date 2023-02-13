@@ -2,97 +2,96 @@ package com.microservices.springkafkaproducer.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microservices.springkafkaproducer.bean.Order;
+import com.microservices.springkafkaproducer.bean.User;
 import com.microservices.springkafkaproducer.enums.Enum;
 import com.microservices.springkafkaproducer.exception.EntityDoesNotExistException;
-import com.microservices.springkafkaproducer.repo.OrderCRUD;
+import com.microservices.springkafkaproducer.repo.UserCRUD;
 import com.microservices.springkafkaproducer.serviceinterface.InterfaceGeneric;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @Slf4j
-public class OrderService implements InterfaceGeneric<Order> {
+public class UserServiceImplementation implements InterfaceGeneric<User> {
+
+
 
     @Autowired
-    private OrderCRUD orderCRUD;
+    UserCRUD userCRUD;
 
-    private Enum topicName=Enum.ORDER_TOPIC;
+    private Enum topicName = Enum.ORDER_TOPIC;
+
+
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
     ObjectMapper om=new ObjectMapper();
 
 
+
+
+
     @Override
-    public Order create(Order order) {
-        order =orderCRUD.save(order);
-        log.info("CREATED");
+    public User create(User user) {
+        user =userCRUD.save(user);
+        log.info("user created");
         // after saving order lets release msg for payment service
         String message= null;
         try {
-            message = om.writeValueAsString(order);
+            message = om.writeValueAsString(user);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         kafkaTemplate.send(topicName.toString(),message);
         log.info("send message to Topic");
-        return order;
+        return user;
     }
 
     @Override
-    public List<Order> getAll() {
-        return  orderCRUD.findAll();
+    public List<User> getAll() {
+        List<User> users= (List<User>) userCRUD.findAll();
+        return users;
     }
 
 
-
-
     @Override
-    public Order findById(Integer id) {
-        return orderCRUD.findById(id).orElseThrow(()-> new  EntityDoesNotExistException(id));
+    public User findById(Integer id) {
+        return userCRUD.findById(id).orElseThrow(()-> new EntityDoesNotExistException(id));
     }
 
 
-
-
     @Override
-    public Order updateYourEntity(Order order) {
-        Optional<Order> updatedEntityOptional = orderCRUD.findById(order.getId());
+    public User updateYourEntity(User user) {
+
+        Optional<User> updatedEntityOptional = userCRUD.findById(user.getId());
 
         if (!updatedEntityOptional.isPresent()) {
             return null;
         }
 
-        Order updatedEntity = updatedEntityOptional.get();
+        User updatedEntity = updatedEntityOptional.get();
 
-        updatedEntity.setUserId(order.getUserId());
-        updatedEntity.setOrderAmount(order.getOrderAmount());
-        updatedEntity.setStatus(order.getStatus());
+        updatedEntity.setBalance(user.getBalance());
+        updatedEntity.setName(user.getName());
 
-        return orderCRUD.save(updatedEntity);
+        return userCRUD.save(updatedEntity);
+
     }
-
 
     @Override
     public boolean delete(Integer id) {
 
-        Optional<Order> entityOptional = orderCRUD.findById(id);
+        Optional<User> entityOptional = userCRUD.findById(id);
         if (!entityOptional.isPresent()) {
             return false;
         }
-
-        orderCRUD.delete(entityOptional.get());
+        userCRUD.delete(entityOptional.get());
         return true;
     }
-}
-
-
-
-
+    }
 

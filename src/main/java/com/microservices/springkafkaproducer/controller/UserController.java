@@ -1,7 +1,7 @@
 package com.microservices.springkafkaproducer.controller;
 
 import com.microservices.springkafkaproducer.bean.User;
-import com.microservices.springkafkaproducer.repo.UserCRUD;
+import com.microservices.springkafkaproducer.serviceinterface.InterfaceGeneric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -11,19 +11,36 @@ import java.util.*;
 public class UserController {
 
     @Autowired
-    UserCRUD userCRUD;
+    private InterfaceGeneric<User> userServiceImplementation;
 
-    @GetMapping("/all")
-    public List<User> getAllUser() {
-        List<User> users = (List<User>) userCRUD.findAll();
-        return users;
-    }
 
-    @PostMapping("/save")
+    @PostMapping
     public User saveUser(@RequestBody User user) {
-        user = userCRUD.save(user);
-        return user;
+      return userServiceImplementation.create(user);
     }
+
+    @GetMapping
+    public List<User> getAllUser() {
+        return userServiceImplementation.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Integer id) {
+        return userServiceImplementation.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Integer id ,@RequestBody User user) {
+        return userServiceImplementation.updateYourEntity(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        userServiceImplementation.delete(id);
+    }
+
+
+
 
 }
 

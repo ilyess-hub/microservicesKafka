@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Order implements Serializable {
     private static final long serialVersionUID = -4551323276601557391L;
     @Id
-    private int id;
+    private Integer id;
     private double orderAmount;
     private String status;
     private int userId;
@@ -23,11 +23,11 @@ public class Order implements Serializable {
         return serialVersionUID;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
